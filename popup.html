@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YouTubeMP3もどき+</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main class="popup-shell">
+      <header class="header">
+        <div>
+          <h1>YouTubeMP3もどき+</h1>
+        </div>
+        <div class="header-actions">
+          <button id="infoButton" class="icon-button" type="button" title="このツールについて" aria-controls="infoPanel" aria-expanded="false">i</button>
+        </div>
+      </header>
+
+      <section id="infoPanel" class="info-panel" hidden>
+        <p>YouTubeMP3もどきを便利に使うための非公式ツールです。</p>
+      </section>
+
+      <form id="downloadForm" class="form">
+        <label class="field">
+          <span>URL</span>
+          <input id="url" name="url" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off" required>
+        </label>
+
+        <div class="field-row">
+          <label class="field">
+            <span>形式</span>
+            <select id="format" name="format">
+              <optgroup label="音声">
+                <option value="m4a">M4A</option>
+                <option value="mp3">MP3</option>
+                <option value="opus">Opus</option>
+                <option value="wav">WAV</option>
+              </optgroup>
+              <optgroup label="動画">
+                <option value="mp4">MP4 元画質</option>
+                <option value="mp4-1080p">MP4 1080p</option>
+                <option value="mp4-720p">MP4 720p</option>
+                <option value="mp4-540p">MP4 540p</option>
+                <option value="mp4-480p">MP4 480p</option>
+                <option value="mp4-360p">MP4 360p</option>
+                <option value="webm">WebM</option>
+                <option value="etc">その他</option>
+              </optgroup>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>ファイル名</span>
+            <input id="filename" name="filename" type="text" placeholder="ファイル名を入力（任意）" autocomplete="off">
+          </label>
+        </div>
+
+        <details class="details">
+          <summary>オプション</summary>
+          <div class="options-grid">
+            <label class="check">
+              <input id="useAria2" type="checkbox">
+              <span>aria2 を使う</span>
+            </label>
+            <label class="check">
+              <input id="embedThumbnail" type="checkbox">
+              <span>サムネイル埋め込み</span>
+            </label>
+            <label class="check">
+              <input id="preferAv1" type="checkbox">
+              <span>AV1 を優先</span>
+            </label>
+          </div>
+
+          <div class="field-row time-row">
+            <label class="field">
+              <span>開始時間</span>
+              <input id="cutStartTime" type="text" inputmode="numeric" placeholder="00:01:23" title="開始時間" pattern="^([0-9]{2,}):([0-9]{2}):([0-9]{2})$">
+            </label>
+            <label class="field">
+              <span>終了時間</span>
+              <input id="cutEndTime" type="text" inputmode="numeric" placeholder="00:04:56" title="終了時間" pattern="^([0-9]{2,}):([0-9]{2}):([0-9]{2})$">
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="ticket">優先高速変換チケット</span>
+            <div class="serial-auth-row">
+              <input id="serialCode" type="password" placeholder="シリアルコード" autocomplete="off">
+              <button id="serialAuthButton" class="serial-auth-button" type="button">認証チェック</button>
+            </div>
+            <span id="serialAuthStatus" class="serial-auth-status">本家サイトで保存済みなら認証チェックで読み込めます。</span>
+          </label>
+        </details>
+
+        <div class="actions">
+          <button id="submitButton" class="primary-button" type="submit">変換してダウンロード</button>
+          <button id="cancelButton" class="secondary-button" type="button" hidden>キャンセル</button>
+        </div>
+      </form>
+
+      <section class="status-card" aria-live="polite">
+        <div class="status-line">
+          <span id="statusDot" class="status-dot"></span>
+          <span id="statusText">待機中</span>
+        </div>
+        <div class="progress-track">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+        <div id="detailText" class="detail-text"></div>
+        <a id="fileLink" class="file-link" href="#" target="_blank" rel="noreferrer" hidden>変換済みファイルを開く</a>
+      </section>
+
+      <section class="server-card">
+        <div class="server-header">
+          <span>サーバー混雑状況</span>
+          <button id="serverRefreshButton" class="server-refresh-button" type="button">更新</button>
+        </div>
+        <div id="serverList" class="server-list" aria-live="polite">
+          <p class="server-empty">まだ取得していません。</p>
+        </div>
+        <div id="serverUpdatedAt" class="server-updated"></div>
+      </section>
+
+      <footer class="footer">
+        <p>by <span class="author-name">Chihalu</span></p>
+      </footer>
+    </main>
+    <script src="popup.js" defer></script>
+  </body>
+</html>
