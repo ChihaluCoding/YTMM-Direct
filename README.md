@@ -1,5 +1,7 @@
 # YouTubeMP3もどき ダイレクト
 
+<img src="screenshot.png" alt="YouTubeMP3もどき ダイレクトのポップアップ画面" width="387">
+
 ## インストール
 
 1. Chrome で `chrome://extensions/` を開く。
@@ -29,3 +31,6 @@
 - サーバー再起動予定時刻の 04:00 / 10:00 / 16:00 / 22:00 (JST) の30分前から、その時刻までは新規変換を開始できません。
 - 変換は `POST /download` の Server-Sent Events を読み、`result` イベント後に `GET /file/{download_task_id}` をダウンロードします。
 - 長時間の変換中は Chrome の拡張 service worker の都合で中断される可能性があります。その場合は再実行してください。
+
+## 自身でサーバーを立てられる場合
+こちらをご利用してみて下さい。https://github.com/ChihaluCoding/yt-dl

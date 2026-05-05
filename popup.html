@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>YouTubeMP3もどき+</title>
+    <title>YouTubeMP3もどき ダイレクト</title>
     <link rel="stylesheet" href="popup.css">
   </head>
   <body>
     <main class="popup-shell">
       <header class="header">
         <div>
-          <h1>YouTubeMP3もどき+</h1>
+          <h1>YouTubeMP3もどき ダイレクト</h1>
         </div>
         <div class="header-actions">
           <button id="infoButton" class="icon-button" type="button" title="このツールについて" aria-controls="infoPanel" aria-expanded="false">i</button>
@@ -84,14 +84,14 @@
             </label>
           </div>
 
-          <label class="field">
-            <span class="ticket">優先高速変換チケット</span>
+          <div class="field">
+            <label class="ticket" for="serialCode">優先高速変換チケット</label>
             <div class="serial-auth-row">
-              <input id="serialCode" type="password" placeholder="シリアルコード" autocomplete="off">
+              <input id="serialCode" type="password" placeholder="シリアルコード" autocomplete="off" aria-describedby="serialAuthStatus">
               <button id="serialAuthButton" class="serial-auth-button" type="button">認証チェック</button>
             </div>
             <span id="serialAuthStatus" class="serial-auth-status">本家サイトで保存済みなら認証チェックで読み込めます。</span>
-          </label>
+          </div>
         </details>
 
         <div class="actions">
