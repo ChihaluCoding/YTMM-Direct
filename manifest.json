@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "YouTubeMP3もどき",
   "description": "YouTubeMP3もどきのサイトを開かずに変換とダウンロードを実行します。",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "minimum_chrome_version": "109",
   "action": {
     "default_title": "YouTubeMP3もどき",

@@ -33,4 +33,5 @@
 - 長時間の変換中は Chrome の拡張 service worker の都合で中断される可能性があります。その場合は再実行してください。
 
 ## 自身でサーバーを立てられる場合
-こちらをご利用してみて下さい。https://github.com/ChihaluCoding/yt-dl
+- こちらをご利用してみて下さい。https://github.com/ChihaluCoding/yt-dl
+- MacOSであれば https://github.com/ChihaluCoding/YT-Downloader がおすすめです。
