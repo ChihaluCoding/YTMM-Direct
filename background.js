@@ -93,7 +93,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   }
 
   if (message.type === "GET_SERVER_STATUSES") {
-    getServerStatusSnapshot()
+    getServerStatusSnapshot(undefined, { force: Boolean(message.force) })
       .then((snapshot) => sendResponse({ ok: true, ...snapshot }))
       .catch((error) => {
         sendResponse({
@@ -762,8 +762,8 @@ async function getServerStatuses(signal) {
   return serverStatus.servers;
 }
 
-async function getServerStatusSnapshot(signal) {
-  if (serverStatusCache && Date.now() - serverStatusCache.checkedAt < SERVER_STATUS_CACHE_MS) {
+async function getServerStatusSnapshot(signal, { force = false } = {}) {
+  if (!force && serverStatusCache && Date.now() - serverStatusCache.checkedAt < SERVER_STATUS_CACHE_MS) {
     return {
       ...serverStatusCache,
       cached: true

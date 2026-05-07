@@ -1,1 +1,6 @@
 /.lh
+AGENTS.md
+site-index-js.txt
+.playwright-mcp/
+.lh/
+.DS_Store

@@ -43,11 +43,13 @@ const DEFAULT_SUBMIT_BUTTON_TEXT = elements.submitButton.textContent;
 const HEAVY_CONGESTION_COUNT = 150;
 const RESTART_BLOCK_WINDOW_MS = 30 * 60 * 1000;
 const RESTART_HOURS_JST = [4, 10, 16, 22];
+const SERVER_STATUS_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 
 let serialAuthChecking = false;
 let conversionBusy = false;
 let cooldownTimerId = null;
 let restartBlockTimerId = null;
+let serverStatusTimerId = null;
 let currentCooldownUntil = 0;
 let serverStatusLoading = false;
 
@@ -55,8 +57,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadSettings();
   await fillCurrentTabUrl({ onlyWhenEmpty: true });
   await refreshState();
+  refreshServerStatuses({ force: true });
+  serverStatusTimerId = setInterval(() => {
+    refreshServerStatuses({ force: true, showLoading: false });
+  }, SERVER_STATUS_REFRESH_INTERVAL_MS);
   restartBlockTimerId = setInterval(() => updateCooldownButton(currentCooldownUntil), 1000);
   updateCooldownButton(currentCooldownUntil);
+});
+
+window.addEventListener("pagehide", () => {
+  if (serverStatusTimerId) clearInterval(serverStatusTimerId);
+  if (restartBlockTimerId) clearInterval(restartBlockTimerId);
+  if (cooldownTimerId) clearTimeout(cooldownTimerId);
 });
 
 elements.form.addEventListener("submit", async (event) => {
@@ -108,7 +120,7 @@ elements.serialAuthButton.addEventListener("click", () => {
 });
 
 elements.serverRefreshButton.addEventListener("click", () => {
-  refreshServerStatuses();
+  refreshServerStatuses({ force: true });
 });
 
 for (const element of settingsElements()) {
@@ -245,12 +257,14 @@ function setSerialAuthStatus(message, status) {
   if (status) elements.serialAuthStatus.classList.add(`is-${status}`);
 }
 
-async function refreshServerStatuses() {
+async function refreshServerStatuses({ force = false, showLoading = true } = {}) {
+  if (serverStatusLoading) return;
+
   serverStatusLoading = true;
   elements.serverRefreshButton.disabled = true;
-  renderServerLoading();
+  if (showLoading) renderServerLoading();
 
-  chrome.runtime.sendMessage({ type: "GET_SERVER_STATUSES" }, (response) => {
+  chrome.runtime.sendMessage({ type: "GET_SERVER_STATUSES", force }, (response) => {
     const error = chrome.runtime.lastError;
     serverStatusLoading = false;
     elements.serverRefreshButton.disabled = conversionBusy;
